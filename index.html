@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- ================= FAVICONS & APP META =================
+       Dépose les fichiers d’icônes dans le dossier /XYZ/ (modifiable). 
+       Tu peux aussi les mettre à la racine (remplace /XYZ/ par /).
+
+       REQUIS / RECOMMANDÉ :
+       - /XYZ/favicon.ico (fallback legacy)
+       - /XYZ/favicon.svg (vectoriel recommandé)
+       - /XYZ/favicon-32x32.png
+       - /XYZ/favicon-16x16.png
+       - /XYZ/apple-touch-icon.png (180×180)
+       - /XYZ/safari-pinned-tab.svg (monochrome)
+       - /XYZ/site.webmanifest (nom, couleurs, icônes PWA)
+
+       NOTES :
+       • Google lit surtout <link rel="icon"> (sinon /favicon.ico).
+       • Ne bloque pas /XYZ/ dans robots.txt. Fichiers accessibles sans redirections complexes.
+       • Logo très simple et contrasté pour rester lisible à 16–24 px.
+  ========================================================= -->
+  <link rel="icon" href="/XYZ/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/XYZ/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/XYZ/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/XYZ/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/XYZ/apple-touch-icon.png">
+  <link rel="manifest" href="/XYZ/site.webmanifest">
+  <link rel="mask-icon" href="/XYZ/safari-pinned-tab.svg" color="#3b82f6">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="msapplication-TileColor" content="#3b82f6">
+  <meta name="application-name" content="modele-multipage">
+  <meta name="apple-mobile-web-app-title" content="modele-multipage">
+  <!-- ===================================================== -->
+
+  <title>(Titre/nom du site)</title>
+  <style>
+    :root{
+      /* === PALETTE RAPIDE (change ici) ===
+         Option neutre gris :   --brand:#475569; --accent:#475569;  (Slate)
+         Option bleu sobre  :   --brand:#1e40af; --accent:#1e40af;  (Bleu)
+         Tu peux remplacer ces hex en 1 endroit et tout le site suit. */
+      --brand:#475569;  /* Couleur principale (header, séparateurs) */
+      --bg:#ffffff;     /* Fond général */
+      --text:#111111;   /* Texte par défaut */
+      --accent:#475569; /* Boutons & éléments d’action */
+
+      /* Typographies */
+      --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue","Segoe UI",Roboto,Inter,Arial,sans-serif;
+      --font-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","Segoe UI",Roboto,Inter,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-text);overflow-x:hidden}
+
+    /* ===== Header / Nav ===== */
+    .site-header{position:fixed;inset:0 0 auto 0;height:64px;background:var(--brand);border-bottom:none;z-index:50}
+    .site-header .wrap{width:min(1200px,96%);margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:block}
+    .brand-logo{height:36px;display:block}
+    .desktop-nav{display:none;gap:6px}
+    .desktop-nav a{color:#fff;text-decoration:none;font-weight:700;padding:8px 12px;border-radius:999px}
+    .desktop-nav a:hover{background:rgba(255,255,255,.12)}
+    .burger{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:2px solid rgba(255,255,255,.55);border-radius:12px;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .burger .bar{position:relative;display:block;width:24px;height:3px;background:#fff;border-radius:2px}
+    .burger .bar::before,.burger .bar::after{content:"";position:absolute;left:50%;top:50%;width:24px;height:3px;background:#fff;border-radius:2px;transform:translate(-50%,-50%)}
+    .burger .bar::before{transform:translate(-50%,-50%) translateY(-7px)}
+    .burger .bar::after{transform:translate(-50%,-50%) translateY(7px)}
+    body.menu-open .burger .bar{background:transparent}
+    body.menu-open .burger .bar::before{transform:translate(-50%,-50%) rotate(45deg)}
+    body.menu-open .burger .bar::after{transform:translate(-50%,-50%) rotate(-45deg)}
+    .burger:focus-visible{outline:2px solid #fff;outline-offset:3px}
+    
+
+    .mobile-menu{position:fixed;top:0;right:0;bottom:0;width:84%;max-width:320px;background:var(--brand);box-shadow:-16px 0 40px rgba(0,0,0,.18);padding:20px;transform:translateX(100%);transition:transform .28s ease;z-index:60;display:flex;flex-direction:column;gap:8px}
+    .mobile-menu a{padding:14px 8px;border-radius:10px;text-decoration:none;color:#fff;font-weight:700}
+    .mobile-menu a:hover{background:rgba(255,255,255,.12)}
+    .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .28s ease;z-index:55}
+    body.menu-open .mobile-menu{transform:translateX(0)}
+    body.menu-open .backdrop{opacity:1;pointer-events:auto}
+    body.menu-open{overflow:hidden}
+
+    @media (min-width:900px){
+      .desktop-nav{display:flex}
+      .burger{display:none}
+      .mobile-menu,.backdrop{display:none}
+    }
+
+    /* ===== Hero ===== */
+    .hero{position:relative;min-height:100svh;background:linear-gradient(transparent 55%, rgba(0,0,0,.35) 100%),url('images/hero.jpg') center/cover no-repeat;color:#fff;text-align:center}
+    .hero::before{content:"";position:absolute;inset:0;background: rgba(0,0,0,.5);pointer-events:none;z-index:0;}
+    .hero > *{ position: relative; z-index: 1; }
+    .hero-inner{position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);bottom: auto;width: min(1120px, 96%);display: flex;flex-direction: column;align-items: center;gap: 12px;}
+    .hero h1{font-family:var(--font-display);font-size:clamp(32px, 6.5vw, 72px);line-height:1.08;letter-spacing:-.01em;margin:0;color:#fff;max-width:100%;text-shadow:balance;overflow-wrap:anywhere}
+    .hero p{font-family:var(--font-text);font-size:18px;margin:2px 0 6px;color:#fff;max-width:44ch}
+    .cta-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:0}
+    .cta{display:inline-block;background:var(--accent);color:#fff;padding:12px 18px;border-radius:999px;font-weight:700;text-decoration:none}
+    .badges{margin:4px 0 0;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .badge{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.55);color:#fff}
+    .hero-bottom{position:absolute;left:50%;bottom: calc(env(safe-area-inset-bottom) + 1.8vh);transform: translateX(-50%);display:flex; flex-direction:column; align-items:center; gap:10px;width: min(1120px, 96%)}
+    .hero-bottom .cta-row{ margin:0 }   /* pas d’espace en haut */
+    .hero-bottom .badges{ margin:0 }    /* pas d’espace en haut */
+    @media (min-width:900px){
+    .hero h1{ font-size: clamp(40px, 6vw, 76px); }
+    .hero p { font-size: clamp(18px, 2vw, 24px); }
+}
+
+    /* push content under fixed header */
+    main{display:block;padding-top:64px}
+
+    /* ===== Sections ===== */
+    .section{padding:20px 16px;text-align:center}
+    .section .wrap{width:min(1200px,96%);margin:0 auto}
+    .section h2{margin:0 0 10px;font-size:32px;color:var(--brand);font-family:var(--font-display)}
+    .section p{max-width:min(1100px,92%);margin:0 auto 10px;text-align:justify;color:#111;font-size:17px;line-height:1.6}
+
+    /* ESSAI */
+    .try-wrap{display:grid;gap:18px;align-items:start}
+    .try-text{order:1}
+    .try-embed{order:2}
+    #try{padding-top:10px;padding-bottom:16px}
+    #try h2{margin-bottom:8px}
+    #try p{line-height:1.8;font-size:18px}
+    .calendly-inline-widget{width:100%;min-height:620px;border-radius:12px;overflow:hidden}
+
+    /* ÉQUIPE */
+    #team .center-btn{display:flex;justify-content:center;margin-top:22px}
+
+    /* VIDÉO */
+    #video .center-btn{display:flex;justify-content:center;margin-top:24px}
+    .embed{width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/9;background:#f1f5f9;border-radius:12px;overflow:hidden}
+    .embed iframe{width:100%;height:100%;border:0}
+
+    /* WAVES */
+    .sep-wave{height:70px}
+    .sep-wave svg{display:block;width:100%;height:70px}
+
+    /* Responsive */
+    @media (min-width:900px){
+      .section{padding:28px 20px}
+      .try-wrap{grid-template-columns:1.05fr .95fr;gap:24px;align-items:stretch}
+      .try-text{display:grid;grid-template-rows:auto 1fr;align-self:stretch;}
+      .try-text h2{ margin:0 0 8px; align-self:start; }
+      .try-body{display:flex;flex-direction:column;justify-content:center;gap:12px;}
+      #try{padding-top:14px;padding-bottom:20px}
+      #try p{font-size:18px;line-height:1.9}
+      .hero h1{font-size:36px}
+      .hero p{font-size:20px}
+    }
+    @media (min-width:1200px){
+      .hero h1{font-size:44px}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <!-- SLOT: Logo du site -->
+        <!-- Remplace images/logo.png par ton logo. Conserve le ratio carré/rectangulaire.
+             Taille visuelle contrôlée par .brand-logo (CSS). -->
+        <img class="brand-logo" src="images/logo.png" alt="(Logo du site)">
+      </a>
+      <nav class="desktop-nav" aria-label="Navigation principale">
+        <a href="#">Accueil</a>
+        <a href="equipeatp.html">Équipe ATP</a>
+        <a href="avis.html">Avis</a>
+        <a href="planning.html">Planning</a>
+        <a href="salle.html">Salle</a>
+        <a href="tarifs.html">Tarifs</a>
+      </nav>
+      <button id="menuBtn" class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu"><span class="bar" aria-hidden="true"></span></button>
+    </div>
+  </header>
+
+  <nav id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <a href="#">Accueil</a>
+    <a href="equipeatp.html">Équipe ATP</a>
+    <a href="avis.html">Avis</a>
+    <a href="planning.html">Planning</a>
+    <a href="salle.html">Salle</a>
+    <a href="tarifs.html">Tarifs</a>
+  </nav>
+  <div id="backdrop" class="backdrop" hidden></div>
+
+  <main>
+    <section class="hero">
+  <!-- centre : Titre + sous-titre -->
+  <div class="hero-inner">
+    <!-- SLOT: H1 & sous-titre du hero -->
+    <h1>(Titre/nom du site)</h1>
+    <h2>(Slogan court / baseline)</h2>
+  </div>
+  <!-- bas de l’image : CTA + badges -->
+  <div class="hero-bottom">
+    <div class="cta-row">
+      <!-- SLOT: Bouton principal hero -->
+      <!-- Remplace l’URL Calendly par la tienne ou un # si pas de prise de RDV -->
+      <a class="cta" href="https://calendly.com/votre-lien/rdv">(Texte bouton principal)</a>
+    </div>
+    <div class="badges">
+      <!-- SLOT: Badges rapides (optionnels) -->
+      <span class="badge">(Badge #1)</span>
+      <span class="badge">(Badge #2)</span>
+      <span class="badge">(Badge #3)</span>
+    </div>
+  </div>
+</section>
+
+
+    <section class="section" id="try">
+      <div class="wrap try-wrap">
+        <div class="try-text">
+          <!-- SLOT: Titre section 1 -->
+          <h2>(Titre section 1)</h2>
+          <div class="try-body">
+            <!-- SLOT: Texte section 1 (1-2 paragraphes) -->
+            <p>(Paragraphe 1 – explique l’offre/activité principale en 3-4 phrases.)</p>
+            <p>(Paragraphe 2 – bénéfices, garanties, déroulé rapide.)</p>
+          </div>
+        </div>
+        <div class="try-embed">
+          <!-- Calendly (conservé). Remplace l’URL par la tienne -->
+          <div class="calendly-inline-widget" data-url="https://calendly.com/votre-lien/rdv?hide_event_type_details=1&hide_gdpr_banner=1" style="height:700px;"></div>
+          <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        </div>
+      </div>
+    </section>
+
+    <div class="sep-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path fill="var(--brand)" d="M0,90 C240,0 1200,0 1440,90 L1440,90 L0,90 Z"/></svg>
+    </div>
+
+    <section class="section" id="team">
+      <div class="wrap">
+        <!-- SLOT: Titre section équipe -->
+        <h2>(Titre section équipe)</h2>
+        <!-- SLOT: Texte section équipe -->
+        <p>(Texte court de présentation de l’équipe / de l’entreprise. 4-6 lignes max.)</p>
+        <p class="center-btn"><a class="cta" href="equipe.html">(Bouton – Découvrir l’équipe)</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="video">
+      <div class="wrap">
+        <!-- SLOT: Titre section vidéo / témoignages -->
+        <h2>(Titre section vidéo)</h2>
+        <div class="embed">
+          <!-- Remplace VIDEO_ID par ta vidéo YouTube -->
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Vidéo de présentation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="center-btn"><a class="cta" href="avis.html">Voir les avis</a></p>
+      </div>
+    </section>
+
+    <div class="sep-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path fill="var(--brand)" d="M0,90 C240,0 1200,0 1440,90 L1440,90 L0,90 Z"/></svg>
+    </div>
+  </main>
+
+  <footer class="section" style="background:#f8fafc">
+    <div class="wrap">© 2025 (Nom de l’entreprise) — (Adresse) — <a href="#">Mentions légales</a></div>
+  </footer>
+
+  <script>
+    const body=document.body;
+    const btn=document.getElementById('menuBtn');
+    const menu=document.getElementById('mobileMenu');
+    const backdrop=document.getElementById('backdrop');
+    const openMenu=()=>{body.classList.add('menu-open');btn.setAttribute('aria-expanded','true');btn.setAttribute('aria-label','Fermer le menu');menu.setAttribute('aria-hidden','false');backdrop.hidden=false};
+    const closeMenu=()=>{body.classList.remove('menu-open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ouvrir le menu');menu.setAttribute('aria-hidden','true');backdrop.hidden=true};
+    btn.addEventListener('click',()=>{body.classList.contains('menu-open')?closeMenu():openMenu()});
+    backdrop.addEventListener('click',closeMenu);
+    menu.addEventListener('click',e=>{if(e.target.tagName==='A') closeMenu()});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape') closeMenu()});
+  </script>
+</body>
+</html>
