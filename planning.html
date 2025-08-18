@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- ================= FAVICONS & APP META =================
+       Dépose les fichiers d’icônes dans le dossier images/ (modifiable).
+       Sur GitHub Pages (project site), garde des chemins relatifs (sans / au début).
+
+       REQUIS / RECOMMANDÉ :
+       - images/favicon.ico (fallback legacy)
+       - images/favicon.svg (vectoriel recommandé)
+       - images/favicon-32x32.png
+       - images/favicon-16x16.png
+       - images/apple-touch-icon.png (180×180)
+       - images/safari-pinned-tab.svg (monochrome)
+       - images/site.webmanifest (nom, couleurs, icônes PWA)
+  ========================================================= -->
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="manifest" href="images/site.webmanifest">
+  <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#475569">
+  <meta name="theme-color" content="#475569">
+  <meta name="application-name" content="modele-multipage">
+  <meta name="apple-mobile-web-app-title" content="modele-multipage">
+
+  <title>(Titre/nom du site) — (Page Planning)</title>
+  <style>
+    :root{
+      /* === PALETTE RAPIDE (change ici) ===
+         Option neutre gris :   --brand:#475569; --accent:#475569;  (Slate)
+         Option bleu sobre  :   --brand:#1e40af; --accent:#1e40af;  (Bleu)
+         Remplace en 1 endroit et tout le site suit. */
+      --brand:#475569;  /* Couleur principale (header, séparateurs, icônes) */
+      --bg:#ffffff;     /* Fond général */
+      --text:#111111;   /* Texte par défaut */
+      --accent:#475569; /* Boutons & éléments d’action */
+
+      /* Typographies */
+      --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue","Segoe UI",Roboto,Inter,Arial,sans-serif;
+      --font-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","Segoe UI",Roboto,Inter,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-text);overflow-x:hidden}
+
+    /* ===== Header / Nav (commun) ===== */
+    .site-header{position:fixed;inset:0 0 auto 0;height:64px;background:var(--brand);z-index:50}
+    .site-header .wrap{width:min(1200px,96%);margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:block}
+    .brand-logo{height:36px;display:block}
+    .desktop-nav{display:none;gap:6px}
+    .desktop-nav a{color:#fff;text-decoration:none;font-weight:700;padding:8px 12px;border-radius:999px}
+    .desktop-nav a:hover{background:rgba(255,255,255,.12)}
+    .desktop-nav a.active{background:rgba(255,255,255,.16)}
+    .burger{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:2px solid rgba(255,255,255,.55);border-radius:12px;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .burger .bar{position:relative;display:block;width:24px;height:3px;background:#fff;border-radius:2px}
+    .burger .bar::before,.burger .bar::after{content:"";position:absolute;left:50%;top:50%;width:24px;height:3px;background:#fff;border-radius:2px;transform:translate(-50%,-50%)}
+    .burger .bar::before{transform:translate(-50%,-50%) translateY(-7px)}
+    .burger .bar::after{transform:translate(-50%,-50%) translateY(7px)}
+    body.menu-open .burger .bar{background:transparent}
+    body.menu-open .burger .bar::before{transform:translate(-50%,-50%) rotate(45deg)}
+    body.menu-open .burger .bar::after{transform:translate(-50%,-50%) rotate(-45deg)}
+    .burger:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+    .mobile-menu{position:fixed;top:0;right:0;bottom:0;width:84%;max-width:320px;background:var(--brand);box-shadow:-16px 0 40px rgba(0,0,0,.18);padding:20px;transform:translateX(100%);transition:transform .28s ease;z-index:60;display:flex;flex-direction:column;gap:8px}
+    .mobile-menu a{padding:14px 8px;border-radius:10px;text-decoration:none;color:#fff;font-weight:700}
+    .mobile-menu a:hover{background:rgba(255,255,255,.12)}
+    .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .28s ease;z-index:55}
+    body.menu-open .mobile-menu{transform:translateX(0)}
+    body.menu-open .backdrop{opacity:1;pointer-events:auto}
+    body.menu-open{overflow:hidden}
+
+    @media (min-width:900px){
+      .desktop-nav{display:flex}
+      .burger{display:none}
+      .mobile-menu,.backdrop{display:none}
+    }
+
+    main{display:block;padding-top:64px}
+
+    /* ===== Hero ===== */
+    .hero{position:relative;min-height:calc(100svh - 64px);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;background:linear-gradient(transparent 55%, rgba(0,0,0,.35) 100%),url('images/hero-planning.jpg') center/cover no-repeat}
+    .hero h1{font-family:var(--font-display);font-size:clamp(34px,5.5vw,68px);margin:0;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35)}
+    .hero::before{content:"";position:absolute;inset:0;background: rgba(0,0,0,.5);pointer-events:none;z-index:0;}
+    .hero > *{ position: relative; z-index: 1; }
+    .hero-badges{position:absolute;bottom:3vh;left:50%;transform:translateX(-50%);display:flex;gap:10px;flex-wrap:wrap}
+    .hero-badges .chip{color:#fff;border:1px solid rgba(255,255,255,.6);padding:6px 12px;border-radius:999px;font-weight:700}
+
+    /* ===== Sections ===== */
+    .section{padding:24px 16px;text-align:center}
+    .wrap{width:min(1200px,96%);margin:0 auto}
+    .section h2{margin:0 0 12px;font-size:28px;color:var(--brand);font-family:var(--font-display)}
+    .section p{max-width:min(1100px,92%);margin:0 auto 12px;text-align:justify;color:#111;font-size:18px;line-height:1.85}
+
+    /* ===== Cartes cours (5 types) ===== */
+    .cards{display:grid;gap:16px}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.06);overflow:hidden;text-align:left}
+    .card .media{aspect-ratio:1/1;background:#f2f4f7}
+    .card .media img{display:block;width:100%;height:100%;object-fit:cover}
+    .card .body{padding:14px}
+    .card h3{margin:0 0 6px;font-size:20px;color:var(--brand);font-family:var(--font-display)}
+    .card p{margin:0;font-size:16px;line-height:1.6;text-align:justify}
+
+    @media (min-width:720px){
+      .cards{grid-template-columns:repeat(3,1fr)}
+    }
+    @media (min-width:1040px){
+      .cards{grid-template-columns:repeat(5,1fr)}
+    }
+
+    /* ===== Embed image (planning) ===== */
+    .embed-img{width:100%;max-width:900px;margin:0 auto;border-radius:12px;overflow:hidden;background:#f1f5f9}
+    .embed-img img{display:block;width:100%;height:auto}
+
+    /* espace sous le schéma + bouton plus bas */
+    #schema .embed-img{margin-bottom:18px}
+    #schema .center-btn{margin-top:28px}
+
+    /* ===== Boutons (commun) ===== */
+    .cta{display:inline-block;background:var(--accent);color:#fff;padding:12px 18px;border-radius:999px;font-weight:700;text-decoration:none}
+    .center-btn{display:flex;justify-content:center;margin-top:24px}
+
+    /* ===== Waves ===== */
+    .sep-wave{height:70px}
+    .sep-wave svg{display:block;width:100%;height:70px}
+
+    /* ===== Footer (commun) ===== */
+    footer.section{background:#f8fafc}
+    .footer-flex{display:flex;flex-direction:column;align-items:center;gap:10px}
+    .socials{display:flex;gap:10px}
+    .social-btn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:999px;background:var(--brand);color:#fff;text-decoration:none;transition:transform .15s ease, filter .15s ease}
+    .social-btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+    .social-btn svg{width:22px;height:22px;display:block}
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <!-- SLOT: Logo du site -->
+        <img class="brand-logo" src="images/logo.png" alt="(Logo du site)">
+      </a>
+      <nav class="desktop-nav" aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="equipe.html">Équipe</a>
+        <a href="avis.html">Avis</a>
+        <a class="active" href="planning.html">Planning</a>
+        <a href="salle.html">Salle</a>
+        <a href="tarifs.html">Tarifs</a>
+      </nav>
+      <button id="menuBtn" class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu"><span class="bar" aria-hidden="true"></span></button>
+    </div>
+  </header>
+
+  <nav id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <a href="index.html">Accueil</a>
+    <a href="equipe.html">Équipe</a>
+    <a href="avis.html">Avis</a>
+    <a class="active" href="planning.html">Planning</a>
+    <a href="salle.html">Salle</a>
+    <a href="tarifs.html">Tarifs</a>
+  </nav>
+  <div id="backdrop" class="backdrop" hidden></div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <h1>(Planning des cours)</h1>
+      <div class="hero-badges">
+        <span class="chip">(Plage jours)</span>
+        <span class="chip">(Créneaux matin)</span>
+        <span class="chip">(Créneaux midi)</span>
+        <span class="chip">(Créneaux soir)</span>
+      </div>
+    </section>
+
+    <!-- INTRO TEXTE -->
+    <section class="section" id="intro">
+      <div class="wrap">
+        <h2>(Comment fonctionne le planning ?)</h2>
+        <p>(Paragraphe 1 – présente les formats/catégories de cours et la logique générale.)</p>
+        <p>(Paragraphe 2 – explique comment démarrer et/ou réserver son essai.)</p>
+      </div>
+    </section>
+
+    <div class="sep-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path fill="var(--brand)" d="M0,90 C240,0 1200,0 1440,90 L1440,90 L0,90 Z"/></svg>
+    </div>
+
+    <!-- 5 TYPES DE COURS -->
+    <section class="section" id="cours">
+      <div class="wrap">
+        <h2>(Les formats de cours)</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="media"><img src="images/cours-1.jpg" alt="(Format #1)"></div>
+            <div class="body"><h3>(Format #1)</h3><p>(Description brève du format #1 : objectifs, public, bénéfices.)</p></div>
+          </article>
+          <article class="card">
+            <div class="media"><img src="images/cours-2.jpg" alt="(Format #2)"></div>
+            <div class="body"><h3>(Format #2)</h3><p>(Description brève du format #2 : objectifs, public, bénéfices.)</p></div>
+          </article>
+          <article class="card">
+            <div class="media"><img src="images/cours-3.jpg" alt="(Format #3)"></div>
+            <div class="body"><h3>(Format #3)</h3><p>(Description brève du format #3 : objectifs, public, bénéfices.)</p></div>
+          </article>
+          <article class="card">
+            <div class="media"><img src="images/cours-4.jpg" alt="(Format #4)"></div>
+            <div class="body"><h3>(Format #4)</h3><p>(Description brève du format #4 : objectifs, public, bénéfices.)</p></div>
+          </article>
+          <article class="card">
+            <div class="media"><img src="images/cours-5.jpg" alt="(Format #5)"></div>
+            <div class="body"><h3>(Format #5)</h3><p>(Description brève du format #5 : objectifs, public, bénéfices.)</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="sep-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path fill="var(--brand)" d="M0,90 C240,0 1200,0 1440,90 L1440,90 L0,90 Z"/></svg>
+    </div>
+
+    <!-- SCHÉMA / IMAGE DE PLANNING -->
+    <section class="section" id="schema">
+      <div class="wrap">
+        <h2>(Le planning en un coup d’œil)</h2>
+        <div class="embed-img"><img src="images/planning.jpg" alt="(Schéma du planning)"></div>
+        <p class="center-btn"><a class="cta" href="https://calendly.com/votre-lien/rdv">(Bouton – Réserver une séance d’essai)</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="section">
+    <div class="wrap footer-flex">
+      <div>© 2025 (Nom de l’entreprise) — (Adresse) — <a href="mentions.html">Mentions légales</a></div>
+      <div class="socials">
+        <!-- Boutons ronds réseaux sociaux. Remplace les URL ci-dessous. -->
+        <a class="social-btn" href="https://instagram.com/votreprofil" target="_blank" rel="noopener" aria-label="Instagram">
+          <!-- Icône Instagram -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="1.6"/><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+        </a>
+        <a class="social-btn" href="https://facebook.com/votreprofil" target="_blank" rel="noopener" aria-label="Facebook">
+          <!-- Icône Facebook -->
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M13.5 9H16V6h-2.5C11.6 6 10 7.6 10 9.5V11H8v3h2v6h3v-6h2.1l.4-3H13v-1.5c0-.3.2-.5.5-.5Z"/></svg>
+        </a>
+        <a class="social-btn" href="https://linkedin.com/in/votreprofil" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <!-- Icône LinkedIn -->
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.94 8.5H3.75V20h3.19V8.5ZM5.35 3.75a1.94 1.94 0 1 0 0 3.88 1.94 1.94 0 0 0 0-3.88ZM20.25 20h-3.19v-6.31c0-1.51-.54-2.55-1.89-2.55-1.03 0-1.64.69-1.91 1.36-.1.24-.12.58-.12.92V20H9.95s.04-10.35 0-11.44h3.19v1.62c.42-.64 1.17-1.56 2.85-1.56 2.08 0 3.66 1.36 3.66 4.28V20Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const body=document.body;const btn=document.getElementById('menuBtn');const menu=document.getElementById('mobileMenu');const backdrop=document.getElementById('backdrop');
+    const openMenu=()=>{body.classList.add('menu-open');btn.setAttribute('aria-expanded','true');btn.setAttribute('aria-label','Fermer le menu');menu.setAttribute('aria-hidden','false');backdrop.hidden=false};
+    const closeMenu=()=>{body.classList.remove('menu-open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ouvrir le menu');menu.setAttribute('aria-hidden','true');backdrop.hidden=true};
+    btn.addEventListener('click',()=>{body.classList.contains('menu-open')?closeMenu():openMenu()});
+    backdrop.addEventListener('click',closeMenu);menu.addEventListener('click',e=>{if(e.target.tagName==='A') closeMenu()});document.addEventListener('keydown',e=>{if(e.key==='Escape') closeMenu()});
+  </script>
+</body>
+</html>
