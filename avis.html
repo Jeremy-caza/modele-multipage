@@ -47,6 +47,9 @@
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-text);overflow-x:hidden}
 
+    /* ===== Justification globale des textes (hors titres / CTA conteneurs) ===== */
+    p:not(.center-btn){ text-align:justify; text-justify:inter-word; text-align-last:left; hyphens:auto; -webkit-hyphens:auto }
+
     /* ===== Header / Nav (commun) ===== */
     .site-header{position:fixed;inset:0 0 auto 0;height:64px;background:var(--brand);border-bottom:none;z-index:50}
     .site-header .wrap{width:min(1200px,96%);margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -92,7 +95,7 @@
     .section{padding:24px 16px;text-align:center}
     .wrap{width:min(1200px,96%);margin:0 auto}
     .section h2{margin:0 0 12px;font-size:28px;color:var(--brand);font-family:var(--font-display)}
-    .section p{max-width:min(1100px,92%);margin:0 auto 12px;text-align:justify;color:#111;font-size:18px;line-height:1.85}
+    .section p{max-width:min(1100px,92%);margin:0 auto 12px;color:#111;font-size:18px;line-height:1.85}
 
     /* ===== Galerie Avis (captures) ===== */
     .reviews{padding:24px 16px}
@@ -113,7 +116,7 @@
     .twocol .img{border-radius:16px;overflow:hidden;background:#f2f4f7}
     .twocol .img img{display:block;width:100%;height:auto}
     .twocol h3{margin:0 0 8px;font-size:24px;color:var(--brand);font-family:var(--font-display)}
-    .twocol p{margin:0;font-size:17px;line-height:1.75;text-align:justify}
+    .twocol p{margin:0;font-size:17px;line-height:1.75}
     .twocol .reverse{order:2}
     @media (min-width:900px){
       .section{padding:32px 20px}
