@@ -47,6 +47,10 @@
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-text);overflow-x:hidden}
 
+    /* ===== Justification globale des textes (hors titres) ===== */
+    /* On justifie tous les paragraphes, sauf ceux servant uniquement de conteneur de boutons */
+    p:not(.center-btn){ text-align:justify; text-justify:inter-word; text-align-last:left; hyphens:auto; -webkit-hyphens:auto }
+
     /* ===== Header / Nav (commun) ===== */
     .site-header{position:fixed;inset:0 0 auto 0;height:64px;background:var(--brand);border-bottom:none;z-index:50}
     .site-header .wrap{width:min(1200px,96%);margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
